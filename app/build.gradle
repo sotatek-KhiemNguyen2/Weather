@@ -1,0 +1,136 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
+}
+
+android {
+    compileSdk 32
+    def versionProperties = file('versions.properties')
+    Properties versionProps = new Properties()
+    versionProps.load(new FileInputStream(versionProperties))
+
+    def appVersionCode = versionProps['appVersionCode'].toInteger()
+    def appVersionName = versionProps['appVersionName'].toString()
+
+    defaultConfig {
+        applicationId "com.sotatek.weather"
+        minSdk 21
+        targetSdk 32
+        versionCode appVersionCode
+        versionName appVersionName
+        flavorDimensions "default"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        dev {
+            keyAlias 'debug'
+            keyPassword '12345678'
+            storeFile file(rootDir.getAbsolutePath() + '/keystores/keystore-debug.jks')
+            storePassword '12345678'
+        }
+        pro {
+            keyAlias 'pro'
+            keyPassword '12345678'
+            storeFile file(rootDir.getAbsolutePath() + '/keystores/keystore-pro.jks')
+            storePassword '12345678'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.dev
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.pro
+        }
+    }
+    productFlavors {
+        pro {
+            applicationId 'com.sotatek.weather'
+            resValue 'string', 'app_name', 'Weather Pro'
+            signingConfig signingConfigs.pro
+        }
+        dev {
+            applicationId 'com.sotatek.weather.dev'
+            resValue 'string', 'app_name', 'Weather App'
+            signingConfig signingConfigs.dev
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+}
+ext {
+    life_cycle_version = '2.2.0'
+    nav_version = '2.5.0'
+    glide_version = '4.13.1'
+    roomVersion = '2.4.2'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "androidx.fragment:fragment-ktx:1.5.0"
+
+    // Jetpack
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
+    // navigation
+    implementation("androidx.navigation:navigation-runtime-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$life_cycle_version"
+    kapt "androidx.lifecycle:lifecycle-common-java8:$life_cycle_version"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
+    // Retrofit + GSON
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+
+    // Room database
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+
+    // glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // test
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //utils
+    implementation "com.intuit.sdp:sdp-android:1.0.6"
+    implementation "com.intuit.ssp:ssp-android:1.0.6"
+    implementation 'net.danlew:android.joda:2.10.12.2'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+}

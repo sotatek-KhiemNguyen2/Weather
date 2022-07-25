@@ -1,0 +1,25 @@
+<resources>
+    <string name="error">Error</string>
+    <string name="error_something_went_wrong">Something went wrong</string>
+    <string name="exception_expired_session">Session Expired. Please login again.</string>
+    <string name="exception_no_network">You\'re offline. Please check your network connection.</string>
+    <string name="exception_unknownhost">Unable to locate the server. Please check your network connection.</string>
+    <string name="exception_connect_timeout">Unable to connect to the server. Please check your network connection.</string>
+    <string name="exception_socket_timeout">The connection has timed out. Please try again.</string>
+    <string name="exception_socket">There are some problems with the connection. Please try again.</string>
+    <string name="exception_ssl_handshake">Your connection is not secure.</string>
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="search">Search</string>
+    <string name="enter_city">Enter city</string>
+    <string name="empty" />
+    <string name="temp_c">°C |</string>
+    <string name="temp_c_without_line">°C</string>
+    <string name="temp_f">°F</string>
+    <string name="humidity">Humidity: %s</string>
+    <string name="description_weather">%s1, %s2</string>
+    <string name="whole_day_forecast">Whole-day Forecast</string>
+    <string name="view_whole_day_forecast"><u>View whole-day forecast</u></string>
+    <string name="date_time_sample">###</string>
+    <string name="please_enter_city">Please enter city !</string>
+</resources>
